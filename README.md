@@ -46,13 +46,11 @@ step.model=step(min.model,direction="both",
 summary(step.model)
 ```
 
-Results shows that the minutes player has nothing to do with the efficiency of a player
-
 ***
 
-#检验
-##模型检验
-　　画出*残差图*，在残差图中我们不能看出什么特别的规律，所以认为关于模型的假设成立。
+#Testing
+##Model testing
+　　Draw the residual plot
 
 ```{r}
 mydata=data.frame(per,ts,trb,ast,stl,blk,tov,usg);
@@ -60,9 +58,9 @@ lm.sol=lm(per~ts+trb+ast+stl+blk+tov+usg,data=mydata);
 plot(lm.sol,which=1)
 ```
 
-##数据检验
-###异常点检验
-　　首先求出**学生化残差**r.std
+##Data testing
+###Outlier test
+　　Get **student residual**r.std
 ```{r}
 r.std=rstandard(lm.sol)
 per.fit=predict(lm.sol);
@@ -70,45 +68,43 @@ plot(r.std~per.fit)
 text(per.fit,r.std,type="1:53");
 r.std
 ```
-
-　　发现3、7、25号球员**学生化残差**$|r_i|>2$，为异常点，使用`outlierTest()`命令也可验证
+  Verify the outlier using `outlierTest()`
 
 ```{r}
 library(car);
 outlierTest(lm.sol)
 ```
 
-　　再对**影响力**进行分析
+　　Analysing **influence**
 ```{r}
 influence.measures(lm.sol)
 ```
 
-　　再进行**D-W检验**
+　　Implementing**D-W test**
 ```{r}
 library(car);
 durbinWatsonTest(lm.sol)
 ```
 
-　　查表可知，对于7个自变量50个样本，$D_u=1.73668$，而这里**DW统计量**为1.86，介于$Du$和$4-Du$之间，故我们接受不相关性假设。
-
-　　最后，做出QQ图
+　　Finally，draw QQ plot
 ```{r}
 plot(lm.sol,2)
 ```
 
-##回归方程、系数显著性检验
+##Test of regression equation and the coefficients' significance
 ```{r}
 summary(lm.sol)
 ```
-　　通过$F_H=158.3$及$p-value<2.2e-16$我们认为回归自变量对因变量有显著作用。而每个回归系数的$p-value$都小于0.05，故我们认为每个回归自变量也都是显著的。
 
-##检验总结
-　　可以看出，3号和7号点是**异常点**，1、2、3、4、5、27号点是**强影响点**，检查后发现数据来源没有过失，但通过分析发现1、2、5、27号点对应球员上场时间很少，总共只有几十分钟，数据没有代表性，而3号球员的数据明显与其他球员有较大差距，于是决定删除这些点，同时加入五个上场时间比较多的球员数据，以减少其他强影响点的影响。综上，由得到的**QQ图**、**残差图**以及**Durbin-Watson检验**，我们接受**线性假设**、**方差齐性假设**、**不相关性假设**和**正态性假设**。
+##Test summary
+    From the above test result, we can see that Number 3 and 7 player are outliers. Number 1,2,3,4,5,27 are points with strong influence, but after the further examination, the data source are correct, but from further analysis, we notice that 1,2,5,27 player has little play time, each in total less than 100 minutes. Thus they are not representative enough. And Number 3 players data is very different from others. Thus I decide to remove those players and add 5 more other players data with more playing time to reduce the influence of other points. 
+    
+Above all, from the above test we can verify the assumptions made: Linearity Assumption, Independence Assumption, Normality Assumpiton and Homogeneity-of-variance Assumption. Feel free to run the code and get the results.
 
 ***
 
-#多重共线性分析
-　　对修改后的数据进行**多重共线性分析**，求出**VIF值***和**Kappa值**
+#Multicollinearity test
+　via VIF value and Kappa value
 ```{r}
 data=read.csv("data3.csv");
 per=data[,4];
@@ -129,8 +125,12 @@ rho=cor(X);
 eigen(rho);
 kappa(rho,exact=TRUE)
 ```
-　　我们发现所有的**VIF**都不大于10，而且**Kappa值**只有23.9，故认为数据不存在多重共线性关系。
+　　We found all the **VIF**are less than 10，and **Kappa value** equals 23.9，so there is no Multicollinearity here
 
+The final result of the equation is $y=-17.285+42.635*ts+0.2889*trb+0.173*ast+1.216*stl+0.561*blk-0.444*tov+0.386*usg$, and this conforms to the normal practice. 
+
+P.S. Feel free to run the code and get the results, please contact me if you have suggestions on the analysis of the results. 
+#Reference
  1."Calculating PER". http://www.basketball-reference.com/about/per.html. Retrieved 5/9/2013. Check date values in: |accessdate= (help)
 
 
