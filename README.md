@@ -128,7 +128,7 @@ kappa(rho,exact=TRUE)
 We found all the **VIF**are less than 10，and **Kappa value** equals 23.9，so there is no Multicollinearity here
 
 #Result
-The final result of the equation is $$y=-17.285+42.635*ts+0.2889*trb+0.173*ast+1.216*stl+0.561*blk-0.444*tov+0.386*usg$$, and this conforms to the normal practice. 
+The final result of the equation is y=-17.285+42.635*ts+0.2889*trb+0.173*ast+1.216*stl+0.561*blk-0.444*tov+0.386*usg, and this conforms to the normal practice. 
 
 P.S. Feel free to run the code and get the results, please contact me if you have suggestions on the analysis of the results. 
 #Reference
