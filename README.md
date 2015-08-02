@@ -1,8 +1,7 @@
 # Regression-analysis-of-NBA-PER-value
 Regression analysis of NBA players' PER value based on R
 
----
-date: "Monday, December 29, 2014"
+
 ---
 #Background
 >The player efficiency rating (PER) is John Hollinger's all-in-one basketball rating, which attempts to boil down all of a player's contributions into one number. Using a detailed formula, Hollinger developed a system that rates every player's statistical performance.[1]
