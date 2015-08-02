@@ -50,7 +50,7 @@ summary(step.model)
 
 #Testing
 ##Model testing
-　　Draw the residual plot
+Draw the residual plot
 
 ```{r}
 mydata=data.frame(per,ts,trb,ast,stl,blk,tov,usg);
@@ -60,7 +60,7 @@ plot(lm.sol,which=1)
 
 ##Data testing
 ###Outlier test
-　　Get **student residual**r.std
+Get **student residual**r.std
 ```{r}
 r.std=rstandard(lm.sol)
 per.fit=predict(lm.sol);
@@ -68,25 +68,25 @@ plot(r.std~per.fit)
 text(per.fit,r.std,type="1:53");
 r.std
 ```
-  Verify the outlier using `outlierTest()`
+Verify the outlier using `outlierTest()`
 
 ```{r}
 library(car);
 outlierTest(lm.sol)
 ```
 
-　　Analysing **influence**
+Analysing **influence**
 ```{r}
 influence.measures(lm.sol)
 ```
 
-　　Implementing**D-W test**
+Implementing**D-W test**
 ```{r}
 library(car);
 durbinWatsonTest(lm.sol)
 ```
 
-　　Finally，draw QQ plot
+Finally，draw QQ plot
 ```{r}
 plot(lm.sol,2)
 ```
@@ -97,7 +97,7 @@ summary(lm.sol)
 ```
 
 ##Test summary
-    From the above test result, we can see that Number 3 and 7 player are outliers. Number 1,2,3,4,5,27 are points with strong influence, but after the further examination, the data source are correct, but from further analysis, we notice that 1,2,5,27 player has little play time, each in total less than 100 minutes. Thus they are not representative enough. And Number 3 players data is very different from others. Thus I decide to remove those players and add 5 more other players data with more playing time to reduce the influence of other points. 
+From the above test result, we can see that Number 3 and 7 player are outliers. Number 1,2,3,4,5,27 are points with strong influence, but after the further examination, the data source are correct, but from further analysis, we notice that 1,2,5,27 player has little play time, each in total less than 100 minutes. Thus they are not representative enough. And Number 3 players data is very different from others. Thus I decide to remove those players and add 5 more other players data with more playing time to reduce the influence of other points. 
     
 Above all, from the above test we can verify the assumptions made: Linearity Assumption, Independence Assumption, Normality Assumpiton and Homogeneity-of-variance Assumption. Feel free to run the code and get the results.
 
@@ -125,7 +125,7 @@ rho=cor(X);
 eigen(rho);
 kappa(rho,exact=TRUE)
 ```
-　　We found all the **VIF**are less than 10，and **Kappa value** equals 23.9，so there is no Multicollinearity here
+We found all the **VIF**are less than 10，and **Kappa value** equals 23.9，so there is no Multicollinearity here
 
 The final result of the equation is $y=-17.285+42.635*ts+0.2889*trb+0.173*ast+1.216*stl+0.561*blk-0.444*tov+0.386*usg$, and this conforms to the normal practice. 
 
