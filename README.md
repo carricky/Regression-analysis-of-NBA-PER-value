@@ -2,29 +2,25 @@
 Regression analysis of NBA players' PER value based on R
 
 ---
-title: "NBA球员效率值（PER）分析"
-author: "高思远"
 date: "Monday, December 29, 2014"
-output: html_document
-highlight: zenburn
 ---
-#背景
->NBA球员效率指数是由ESPN专家约翰·霍林格提出的球员价值评估数据体系。利用**PER值**，可以将球员所有表现记录下来，然后加权集成，综合而成，便可以对不同位置、不同年代的球员进行评估和比较。
+#Background
+>The player efficiency rating (PER) is John Hollinger's all-in-one basketball rating, which attempts to boil down all of a player's contributions into one number. Using a detailed formula, Hollinger developed a system that rates every player's statistical performance.[1]
 
-　　而在这里，我利用代表球员场上攻防表现的几个常用数据，对**PER值**进行回归分析，我选取的回归变量主要是
+Here, the variable I chooose are as follows,
 
-* mp-上场时间
-* ts-真实命中率
-* trb-总篮板比率
-* ast-助攻比率
-* stl-抢断比率
-* blk-盖帽比率
-* tov-失误比率
-* usg-进攻中占用回合比率
+* mp-minutes played
+* ts-true shooting rate
+* trb-total rebound ratio
+* ast-assistant ratio
+* stl-steal ratio
+* blk-block ratio
+* tov-turn-over ratio
+* usg-usage ratio
 
 ***
 
-#数据的读入
+#Load data
 ```{r}
 data=read.csv("data2.csv");
 per=data[,4];
@@ -40,8 +36,8 @@ usg=data[,15];
 
 ***
 
-#自变量的选择
-　　由于模型中自变量比较多（8个），所以我决定使用**基于AIC准则的逐步回归法**来进行自变量选择。
+#Choose the independent variable
+　　I used the AIC(Akaike information criterion) to choose the variable
 ```{r}
 mydata=data.frame(mp,ts,trb,ast,stl,blk,tov,usg,per);
 min.model=lm(per~1,data=mydata)
@@ -50,7 +46,7 @@ step.model=step(min.model,direction="both",
 summary(step.model)
 ```
 
-　　这说明mp（球员上场时间）与效率值之间没有直接联系，这也与我们的实际经验相符。
+Results shows that the minutes player has nothing to do with the efficiency of a player
 
 ***
 
@@ -135,6 +131,7 @@ kappa(rho,exact=TRUE)
 ```
 　　我们发现所有的**VIF**都不大于10，而且**Kappa值**只有23.9，故认为数据不存在多重共线性关系。
 
+ 1."Calculating PER". http://www.basketball-reference.com/about/per.html. Retrieved 5/9/2013. Check date values in: |accessdate= (help)
 
 
 
